@@ -88,7 +88,7 @@ ZEST_AMBER_SITE_ID=[your site ID from Amber]
 ZEST_AMBER_POLL_INTERVAL_SECONDS=5
 
 ZEST_ENPHASE_ENVOY_IP=[IP address of your Envoy]
-ZEST_ENPHASE_ENVOY_SESSION_ID=[value of your Envoy sessionId cookie]
+ZEST_ENPHASE_ENVOY_SERIAL_NUMBER=[Serial Number of your Envoy]
 ZEST_ENPHASE_ENVOY_INSTALLER_USERNAME=installer
 ZEST_ENPHASE_ENVOY_INSTALLER_PASSWORD=[your installer password]
 ZEST_ENPHASE_ENVOY_GRID_PROFILE_NAME_NORMAL_EXPORT="[your normal grid profile name]"
@@ -111,24 +111,16 @@ To find your Amber site ID:
 - Click 'Execute'
 - Under the 'Server Response' heading, you should now see a response body containing an ID field. Note that this is distinct from the example response body just below
 
-#### Envoy access token
+#### Envoy serial number
 
 - Browse to: https://entrez.enphaseenergy.com
 - Log in with your Enphase credentials
 - In the 'Create access token' form, search for your system by typing at least three characters of your system name into the 'Select System' field. I imagine this corresponds to the name in Enlighten shown at: Menu -> System -> Site Details. In my case the system name was 'Brendan Weibrecht'
 - Click the suggestion in the dropdown: '[site name] - [site ID]'
 
-#### Envoy installer password
+#### Envoy installer credentials
 
-The default installer password can be algorithmically generated from the Envoy's serial number. I am very grateful for the prior work done by others to figure this out. To generate it, there are a few options:
-
-- [An Android app by thecomputerperson](https://thecomputerperson.wordpress.com/2016/08/28/reverse-engineering-the-enphase-installer-toolkit/)
-- [A Python script by Markus Fritze](https://github.com/sarnau/EnphaseEnergy)
-- [A webpage by Tristan Mott](https://blahnana.com/passwordcalc.html) (easiest)
-
-[Apparently, firmware version 7 replaces this method of authentication](https://support.enphase.com/s/question/0D53m00006ySLuRCAW/unimpressed-with-loss-of-local-api-connectivity-to-envoys?t=1672164431932) with a [token that has to be refreshed through a UI](https://enphase.com/download/iq-gateway-access-using-token-tech-brief) every six months. I haven't read much of the thread, but it sounds like you also lose access to realtime telemetry by upgrading, so I'll be trying to avoid that.
-
-Not that you need it for our configuration, but FYI, the credentials for the homeowner pages are: `envoy` / \[the last six digits of the Envoy serial... which is displayed on the unauthenticated homepage\]
+You will need to contact Enphase Support and request a DIY/installer account be added to you account (your account and password will remain the same as for logging in to Entrez).
 
 #### Grid profile names
 
