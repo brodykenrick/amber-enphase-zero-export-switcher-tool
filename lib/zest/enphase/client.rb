@@ -44,12 +44,6 @@ module Zest
         response.raise_for_status
       end
 
-      #Is this called?
-      def installer_home
-        response =  http.get(installer_home_url)
-        response.raise_for_status
-      end
-
       private
 
       attr_reader :logger, :envoy_ip, :envoy_serial_number, :envoy_installer_username, :envoy_installer_password
@@ -84,10 +78,6 @@ module Zest
 
       def set_grid_profile_url
         "#{base_url}/installer/agf/set_profile.json"
-      end
-
-      def installer_home_url
-        "#{base_url}/installer/setup/home"
       end
 
       def base_url
