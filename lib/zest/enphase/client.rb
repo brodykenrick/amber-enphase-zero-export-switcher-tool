@@ -33,6 +33,7 @@ module Zest
           )
 
         #Weird - regular tokens don't give you access to the set_profile commands.... Had to go and get it another way!!!!!!
+        # Not sure why this is uncommissioned:on as this is for a commissioned system and that is what I used in the UI.....
         responseTokens = httpTokenRefresh.post(
           'https://entrez.enphaseenergy.com/entrez_tokens',
           form: {'uncommissioned':'on', 'Site':"", 'serialNum':envoy_serial_number}
