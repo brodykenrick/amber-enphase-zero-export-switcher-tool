@@ -27,20 +27,21 @@ module Zest
         #From: https://enphase.com/download/accessing-iq-gateway-local-apis-or-local-ui-token-based-authentication
         # but tokens created that way are missing "something" (they don't work for set_profile....)
 
-        response = httpTokenRefreshLogin.post(
+        response = httpTokenRefresh.post(
           'https://entrez.enphaseenergy.com/login',
           form: { 'username': envoy_installer_username, 'password': envoy_installer_password }
           )
 
         #Weird - regular tokens don't give you access to the set_profile commands.... Had to go and get it another way!!!!!!
-        responseTokensOther = httpTokenRefresh.post(
+        responseTokens = httpTokenRefresh.post(
           'https://entrez.enphaseenergy.com/entrez_tokens',
           form: {'uncommissioned':'on', 'Site':"", 'serialNum':envoy_serial_number}
           )
         #This is the text area containing the copy-and-paste code from the Entrez UI
-        document = Nokogiri::HTML(responseTokensOther.body.to_s)
+        document = Nokogiri::HTML(responseTokens.body.to_s)
         @envoy_installer_session_id = document.at('textarea').text
 
+        #Return the login attempt -- more likely to be a credential issue
         response.raise_for_status
       end
 
@@ -48,20 +49,11 @@ module Zest
 
       attr_reader :logger, :envoy_ip, :envoy_serial_number, :envoy_installer_username, :envoy_installer_password
 
-      def httpTokenRefreshLogin
-        @httpTokenRefreshLoghin ||=
-          HTTPX
-            .with(ssl: { verify_mode: OpenSSL::SSL::VERIFY_NONE })
-            .plugin(:cookies)
-            #.with(debug: STDERR, debug_level: 2)
-      end
-
       def httpTokenRefresh
         @httpTokenRefresh ||=
           HTTPX
             .with(ssl: { verify_mode: OpenSSL::SSL::VERIFY_NONE })
             .plugin(:cookies)
-            .with_cookies(httpTokenRefreshLogin.cookies)
             #.with(debug: STDERR, debug_level: 2)
       end
 
