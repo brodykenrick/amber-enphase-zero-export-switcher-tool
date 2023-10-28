@@ -50,6 +50,8 @@ loop do
     end
   rescue => e
     puts "Error: #{e}", e.backtrace
+    puts "Refreshing token - assuming it is a 401 token issue (so a refresh will recover)"
+    enphase_client.get_refreshed_token
   end
   puts
   sleep amber_poll_interval_seconds

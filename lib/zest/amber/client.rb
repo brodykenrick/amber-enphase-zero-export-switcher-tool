@@ -36,7 +36,8 @@ module Zest
       def costs_me_to_export?
         cost = current_prices.export.cents_per_kwh
         logger.info("Amber says exporting energy to the grid would currently #{cost > 0 ? 'cost' : 'earn'} me: #{cost.abs} c/kWh")
-        cost > 0
+        #cost > 0
+        cost > 2.5 # Lose a little money to keep some green power flowing
       end
 
       private

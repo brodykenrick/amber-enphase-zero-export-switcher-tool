@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'httpx'
-
 require 'nokogiri'
 
 module Zest
@@ -18,11 +17,14 @@ module Zest
       end
 
       def set_current_grid_profile(name:)
+        #logger.debug("set_current_grid_profile -- Token is #{@envoy_installer_session_id}")
         response = http.put(set_grid_profile_url, json: { selected_profile: name })
         response.raise_for_status
       end
 
       def get_refreshed_token()
+
+        @http = nil #Remove currently set HTTP incl. bearer (so it gets re-assigned)
         #Initially this followed the Enphase documentation:
         #From: https://enphase.com/download/accessing-iq-gateway-local-apis-or-local-ui-token-based-authentication
         # but tokens created that way are missing "something" (they don't work for set_profile....)
@@ -41,6 +43,9 @@ module Zest
         #This is the text area containing the copy-and-paste code from the Entrez UI
         document = Nokogiri::HTML(responseTokens.body.to_s)
         @envoy_installer_session_id = document.at('textarea').text
+
+        #logger.debug("Bearer Token is #{@envoy_installer_session_id}")
+
 
         #Return the login attempt -- more likely to be a credential issue
         response.raise_for_status
